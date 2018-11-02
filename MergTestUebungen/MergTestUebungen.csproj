@@ -33,8 +33,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,11 +54,73 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatenBank\currencies.cs">
+      <DependentUpon>Sales.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatenBank\customers.cs">
+      <DependentUpon>Sales.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatenBank\customer_managers.cs">
+      <DependentUpon>Sales.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatenBank\custstats.cs">
+      <DependentUpon>Sales.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatenBank\myorders.cs">
+      <DependentUpon>Sales.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatenBank\orderdetails.cs">
+      <DependentUpon>Sales.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatenBank\orders.cs">
+      <DependentUpon>Sales.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatenBank\russia.cs">
+      <DependentUpon>Sales.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatenBank\Sales.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Sales.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatenBank\Sales.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Sales.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatenBank\Sales.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Sales.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="DatenBank\Sales.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Sales.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DatenBank\Sales.edmx.diagram">
+      <DependentUpon>Sales.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DatenBank\Sales.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Sales.Context.cs</LastGenOutput>
+      <DependentUpon>Sales.edmx</DependentUpon>
+    </Content>
+    <Content Include="DatenBank\Sales.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Sales.edmx</DependentUpon>
+      <LastGenOutput>Sales.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

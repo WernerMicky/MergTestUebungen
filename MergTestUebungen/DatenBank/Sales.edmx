@@ -1,0 +1,490 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SalesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="currencies">
+          <Key>
+            <PropertyRef Name="currid" />
+          </Key>
+          <Property Name="currid" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="customer_managers">
+          <Key>
+            <PropertyRef Name="custid" />
+            <PropertyRef Name="empid" />
+          </Key>
+          <Property Name="custid" Type="bigint" Nullable="false" />
+          <Property Name="empid" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="custid" />
+          </Key>
+          <Property Name="custid" Type="bigint" Nullable="false" />
+          <Property Name="compname" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="contact" Type="nvarchar" MaxLength="100" />
+          <Property Name="city" Type="nvarchar" MaxLength="100" />
+          <Property Name="country" Type="nvarchar" MaxLength="100" />
+          <Property Name="currid" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="discount" Type="smallint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SQL-Thinking.sales.custstats' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="custstats">
+          <Key>
+            <PropertyRef Name="custid" />
+          </Key>
+          <Property Name="custid" Type="bigint" Nullable="false" />
+          <Property Name="sumtotal" Type="numeric" Precision="20" Scale="4" />
+          <Property Name="mintotal" Type="numeric" Precision="20" Scale="4" />
+          <Property Name="maxtotal" Type="numeric" Precision="20" Scale="4" />
+          <Property Name="avgtotal" Type="numeric" Precision="20" Scale="4" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SQL-Thinking.sales.myorders' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="myorders">
+          <Key>
+            <PropertyRef Name="ordid" />
+            <PropertyRef Name="custid" />
+            <PropertyRef Name="orderdate" />
+          </Key>
+          <Property Name="ordid" Type="bigint" Nullable="false" />
+          <Property Name="custid" Type="bigint" Nullable="false" />
+          <Property Name="empid" Type="bigint" />
+          <Property Name="orderdate" Type="date" Nullable="false" />
+          <Property Name="total" Type="numeric" Precision="20" Scale="4" />
+        </EntityType>
+        <EntityType Name="orderdetails">
+          <Key>
+            <PropertyRef Name="ordid" />
+            <PropertyRef Name="position" />
+          </Key>
+          <Property Name="ordid" Type="bigint" Nullable="false" />
+          <Property Name="position" Type="int" Nullable="false" />
+          <Property Name="prodid" Type="bigint" Nullable="false" />
+          <Property Name="amount" Type="int" Nullable="false" />
+          <Property Name="price" Type="numeric" Precision="12" Scale="4" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="ordid" />
+          </Key>
+          <Property Name="ordid" Type="bigint" Nullable="false" />
+          <Property Name="custid" Type="bigint" Nullable="false" />
+          <Property Name="empid" Type="bigint" />
+          <Property Name="orderdate" Type="date" Nullable="false" />
+          <Property Name="total" Type="numeric" Precision="20" Scale="4" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SQL-Thinking.sales.russia' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="russia">
+          <Key>
+            <PropertyRef Name="name" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__custstats__custi__22AA2996">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="custstats" Type="Self.custstats" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="custid" />
+            </Principal>
+            <Dependent Role="custstats">
+              <PropertyRef Name="custid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_customer_managesr_custid">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="customer_managers" Type="Self.customer_managers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="custid" />
+            </Principal>
+            <Dependent Role="customer_managers">
+              <PropertyRef Name="custid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_customers_currencies">
+          <End Role="currencies" Type="Self.currencies" Multiplicity="1" />
+          <End Role="customers" Type="Self.customers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="currencies">
+              <PropertyRef Name="currid" />
+            </Principal>
+            <Dependent Role="customers">
+              <PropertyRef Name="currid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orderdetails_ordid">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="orderdetails" Type="Self.orderdetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="ordid" />
+            </Principal>
+            <Dependent Role="orderdetails">
+              <PropertyRef Name="ordid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orders_customers">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="custid" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="custid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SalesModelStoreContainer">
+          <EntitySet Name="currencies" EntityType="Self.currencies" Schema="sales" store:Type="Tables" />
+          <EntitySet Name="customer_managers" EntityType="Self.customer_managers" Schema="sales" store:Type="Tables" />
+          <EntitySet Name="customers" EntityType="Self.customers" Schema="sales" store:Type="Tables" />
+          <EntitySet Name="orderdetails" EntityType="Self.orderdetails" Schema="sales" store:Type="Tables" />
+          <EntitySet Name="orders" EntityType="Self.orders" Schema="sales" store:Type="Tables" />
+          <EntitySet Name="custstats" EntityType="Self.custstats" store:Type="Tables" store:Schema="sales">
+            <DefiningQuery>SELECT 
+    [custstats].[custid] AS [custid], 
+    [custstats].[sumtotal] AS [sumtotal], 
+    [custstats].[mintotal] AS [mintotal], 
+    [custstats].[maxtotal] AS [maxtotal], 
+    [custstats].[avgtotal] AS [avgtotal]
+    FROM [sales].[custstats] AS [custstats]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="myorders" EntityType="Self.myorders" store:Type="Tables" store:Schema="sales">
+            <DefiningQuery>SELECT 
+    [myorders].[ordid] AS [ordid], 
+    [myorders].[custid] AS [custid], 
+    [myorders].[empid] AS [empid], 
+    [myorders].[orderdate] AS [orderdate], 
+    [myorders].[total] AS [total]
+    FROM [sales].[myorders] AS [myorders]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="russia" EntityType="Self.russia" store:Type="Tables" store:Schema="sales">
+            <DefiningQuery>SELECT 
+    [russia].[name] AS [name]
+    FROM [sales].[russia] AS [russia]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__custstats__custi__22AA2996" Association="Self.FK__custstats__custi__22AA2996">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="custstats" EntitySet="custstats" />
+          </AssociationSet>
+          <AssociationSet Name="fk_customer_managesr_custid" Association="Self.fk_customer_managesr_custid">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="customer_managers" EntitySet="customer_managers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_customers_currencies" Association="Self.fk_customers_currencies">
+            <End Role="currencies" EntitySet="currencies" />
+            <End Role="customers" EntitySet="customers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orderdetails_ordid" Association="Self.fk_orderdetails_ordid">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="orderdetails" EntitySet="orderdetails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orders_customers" Association="Self.fk_orders_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SalesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="currencies">
+          <Key>
+            <PropertyRef Name="currid" />
+          </Key>
+          <Property Name="currid" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="customers" Relationship="Self.fk_customers_currencies" FromRole="currencies" ToRole="customers" />
+        </EntityType>
+        <EntityType Name="customer_managers">
+          <Key>
+            <PropertyRef Name="custid" />
+            <PropertyRef Name="empid" />
+          </Key>
+          <Property Name="custid" Type="Int64" Nullable="false" />
+          <Property Name="empid" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="customers" Relationship="Self.fk_customer_managesr_custid" FromRole="customer_managers" ToRole="customers" />
+        </EntityType>
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="custid" />
+          </Key>
+          <Property Name="custid" Type="Int64" Nullable="false" />
+          <Property Name="compname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="contact" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="city" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="currid" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="discount" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="currencies" Relationship="Self.fk_customers_currencies" FromRole="customers" ToRole="currencies" />
+          <NavigationProperty Name="customer_managers" Relationship="Self.fk_customer_managesr_custid" FromRole="customers" ToRole="customer_managers" />
+          <NavigationProperty Name="custstats" Relationship="Self.FK__custstats__custi__22AA2996" FromRole="customers" ToRole="custstats" />
+          <NavigationProperty Name="orders" Relationship="Self.fk_orders_customers" FromRole="customers" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="orderdetails">
+          <Key>
+            <PropertyRef Name="ordid" />
+            <PropertyRef Name="position" />
+          </Key>
+          <Property Name="ordid" Type="Int64" Nullable="false" />
+          <Property Name="position" Type="Int32" Nullable="false" />
+          <Property Name="prodid" Type="Int64" Nullable="false" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="12" Scale="4" />
+          <NavigationProperty Name="orders" Relationship="Self.fk_orderdetails_ordid" FromRole="orderdetails" ToRole="orders" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="ordid" />
+          </Key>
+          <Property Name="ordid" Type="Int64" Nullable="false" />
+          <Property Name="custid" Type="Int64" Nullable="false" />
+          <Property Name="empid" Type="Int64" />
+          <Property Name="orderdate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="total" Type="Decimal" Precision="20" Scale="4" />
+          <NavigationProperty Name="customers" Relationship="Self.fk_orders_customers" FromRole="orders" ToRole="customers" />
+          <NavigationProperty Name="orderdetails" Relationship="Self.fk_orderdetails_ordid" FromRole="orders" ToRole="orderdetails" />
+        </EntityType>
+        <EntityType Name="custstats">
+          <Key>
+            <PropertyRef Name="custid" />
+          </Key>
+          <Property Name="custid" Type="Int64" Nullable="false" />
+          <Property Name="sumtotal" Type="Decimal" Precision="20" Scale="4" />
+          <Property Name="mintotal" Type="Decimal" Precision="20" Scale="4" />
+          <Property Name="maxtotal" Type="Decimal" Precision="20" Scale="4" />
+          <Property Name="avgtotal" Type="Decimal" Precision="20" Scale="4" />
+          <NavigationProperty Name="customers" Relationship="Self.FK__custstats__custi__22AA2996" FromRole="custstats" ToRole="customers" />
+        </EntityType>
+        <EntityType Name="myorders">
+          <Key>
+            <PropertyRef Name="ordid" />
+            <PropertyRef Name="custid" />
+            <PropertyRef Name="orderdate" />
+          </Key>
+          <Property Name="ordid" Type="Int64" Nullable="false" />
+          <Property Name="custid" Type="Int64" Nullable="false" />
+          <Property Name="empid" Type="Int64" />
+          <Property Name="orderdate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="total" Type="Decimal" Precision="20" Scale="4" />
+        </EntityType>
+        <EntityType Name="russia">
+          <Key>
+            <PropertyRef Name="name" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_customers_currencies">
+          <End Role="currencies" Type="Self.currencies" Multiplicity="1" />
+          <End Role="customers" Type="Self.customers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="currencies">
+              <PropertyRef Name="currid" />
+            </Principal>
+            <Dependent Role="customers">
+              <PropertyRef Name="currid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_customer_managesr_custid">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="customer_managers" Type="Self.customer_managers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="custid" />
+            </Principal>
+            <Dependent Role="customer_managers">
+              <PropertyRef Name="custid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__custstats__custi__22AA2996">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="custstats" Type="Self.custstats" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="custid" />
+            </Principal>
+            <Dependent Role="custstats">
+              <PropertyRef Name="custid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orders_customers">
+          <End Role="customers" Type="Self.customers" Multiplicity="1" />
+          <End Role="orders" Type="Self.orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="custid" />
+            </Principal>
+            <Dependent Role="orders">
+              <PropertyRef Name="custid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_orderdetails_ordid">
+          <End Role="orders" Type="Self.orders" Multiplicity="1" />
+          <End Role="orderdetails" Type="Self.orderdetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="orders">
+              <PropertyRef Name="ordid" />
+            </Principal>
+            <Dependent Role="orderdetails">
+              <PropertyRef Name="ordid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SalesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="currencies" EntityType="Self.currencies" />
+          <EntitySet Name="customer_managers" EntityType="Self.customer_managers" />
+          <EntitySet Name="customers" EntityType="Self.customers" />
+          <EntitySet Name="orderdetails" EntityType="Self.orderdetails" />
+          <EntitySet Name="orders" EntityType="Self.orders" />
+          <EntitySet Name="custstats" EntityType="Self.custstats" />
+          <EntitySet Name="myorders" EntityType="Self.myorders" />
+          <EntitySet Name="russia" EntityType="Self.russia" />
+          <AssociationSet Name="fk_customers_currencies" Association="Self.fk_customers_currencies">
+            <End Role="currencies" EntitySet="currencies" />
+            <End Role="customers" EntitySet="customers" />
+          </AssociationSet>
+          <AssociationSet Name="fk_customer_managesr_custid" Association="Self.fk_customer_managesr_custid">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="customer_managers" EntitySet="customer_managers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__custstats__custi__22AA2996" Association="Self.FK__custstats__custi__22AA2996">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="custstats" EntitySet="custstats" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orders_customers" Association="Self.fk_orders_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="orders" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_orderdetails_ordid" Association="Self.fk_orderdetails_ordid">
+            <End Role="orders" EntitySet="orders" />
+            <End Role="orderdetails" EntitySet="orderdetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SalesModelStoreContainer" CdmEntityContainer="SalesEntities">
+          <EntitySetMapping Name="currencies">
+            <EntityTypeMapping TypeName="SalesModel.currencies">
+              <MappingFragment StoreEntitySet="currencies">
+                <ScalarProperty Name="currid" ColumnName="currid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="customer_managers">
+            <EntityTypeMapping TypeName="SalesModel.customer_managers">
+              <MappingFragment StoreEntitySet="customer_managers">
+                <ScalarProperty Name="custid" ColumnName="custid" />
+                <ScalarProperty Name="empid" ColumnName="empid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="SalesModel.customers">
+              <MappingFragment StoreEntitySet="customers">
+                <ScalarProperty Name="custid" ColumnName="custid" />
+                <ScalarProperty Name="compname" ColumnName="compname" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="currid" ColumnName="currid" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orderdetails">
+            <EntityTypeMapping TypeName="SalesModel.orderdetails">
+              <MappingFragment StoreEntitySet="orderdetails">
+                <ScalarProperty Name="ordid" ColumnName="ordid" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="prodid" ColumnName="prodid" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="SalesModel.orders">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="ordid" ColumnName="ordid" />
+                <ScalarProperty Name="custid" ColumnName="custid" />
+                <ScalarProperty Name="empid" ColumnName="empid" />
+                <ScalarProperty Name="orderdate" ColumnName="orderdate" />
+                <ScalarProperty Name="total" ColumnName="total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="custstats">
+            <EntityTypeMapping TypeName="SalesModel.custstats">
+              <MappingFragment StoreEntitySet="custstats">
+                <ScalarProperty Name="custid" ColumnName="custid" />
+                <ScalarProperty Name="sumtotal" ColumnName="sumtotal" />
+                <ScalarProperty Name="mintotal" ColumnName="mintotal" />
+                <ScalarProperty Name="maxtotal" ColumnName="maxtotal" />
+                <ScalarProperty Name="avgtotal" ColumnName="avgtotal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="myorders">
+            <EntityTypeMapping TypeName="SalesModel.myorders">
+              <MappingFragment StoreEntitySet="myorders">
+                <ScalarProperty Name="ordid" ColumnName="ordid" />
+                <ScalarProperty Name="custid" ColumnName="custid" />
+                <ScalarProperty Name="empid" ColumnName="empid" />
+                <ScalarProperty Name="orderdate" ColumnName="orderdate" />
+                <ScalarProperty Name="total" ColumnName="total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="russia">
+            <EntityTypeMapping TypeName="SalesModel.russia">
+              <MappingFragment StoreEntitySet="russia">
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
