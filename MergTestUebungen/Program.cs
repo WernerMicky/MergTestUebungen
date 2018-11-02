@@ -82,10 +82,6 @@ namespace MergTestUebungen
             List<Ergebnis> innerJoin;
             using (SalesEntities e = new SalesEntities())
             {
-
-                var all = e.currencies.Where(m => m.currid == "GBP").ToList();
-
-
                 Ergebnis c = new Ergebnis();
                 innerJoin = (from ku in e.customers
                              join w in e.currencies
@@ -97,7 +93,7 @@ namespace MergTestUebungen
                                  country = ku.country,
                                  city = ku.city,
                                  currid = w.currid
-                             }).Where(m => m.currid == "GBP").ToList();
+                             }).ToList();
             }
             return innerJoin;
         }
