@@ -74,8 +74,22 @@ namespace MergTestUebungen
                 Console.WriteLine($"ID {item.ID} und   Name: {item.Countryname}");
             }
 
+            string z = "hallo ich wollte nur mal fragen, hallo hier ist ein Test";
+
+            int i = z.WordCount();
+
+            z = z.UppercaseFirstLetter();
+            Console.WriteLine(z);
             Console.WriteLine();
-           
+            Console.WriteLine(i);
+            Console.WriteLine();
+
+            string a = "eins", b = "20", f = "30", d = "80c1";
+            Console.WriteLine(a.TryToIntager());
+            Console.WriteLine(b.TryToIntager());
+            Console.WriteLine(f.TryToIntager());
+            Console.WriteLine(d.TryToIntager());
+
             Console.ReadKey();
 
         }
