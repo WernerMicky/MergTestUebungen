@@ -93,6 +93,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Sales.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
