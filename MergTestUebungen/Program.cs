@@ -75,8 +75,7 @@ namespace MergTestUebungen
             }
 
             Console.WriteLine();
-      
-
+           
             Console.ReadKey();
 
         }
