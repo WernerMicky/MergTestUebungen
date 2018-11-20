@@ -58,6 +58,23 @@ namespace MergTestUebungen
 
             var y = getTheUserListName();
 
+            List<string> k = new List<string>();
+            k.AddRange(y.Take(5));
+
+            Console.WriteLine("hallo " + k[1]);
+
+
+            Console.WriteLine("ToLookup");
+
+            var cut = GetAllCustomers();
+            cut.ToLookup(l => l.Countryname);
+
+            foreach (var item in cut)
+            {
+                Console.WriteLine($"ID {item.ID} und   Name: {item.Countryname}");
+            }
+
+            Console.WriteLine();
       
 
             Console.ReadKey();
@@ -96,6 +113,17 @@ namespace MergTestUebungen
             }
             return x;
         }
+
+        static IEnumerable<Name> GetAllCustomers()
+        {
+            var y = new List<Name>();        
+            using (SalesEntities e = new SalesEntities())
+            {
+                y = e.customers.Select(s => new Name { Countryname = s.compname, ID = (int)s.custid}).ToList();
+            }
+            return y;
+
+        }
         static List<customers> LiefereMirAlleKunden()
         {
             List<customers> all = null;
@@ -123,7 +151,7 @@ namespace MergTestUebungen
             List<currencies> all;
             using (SalesEntities e = new SalesEntities())
             {
-                all = e.currencies.Take(10).ToList();
+                all = e.currencies.Take(5).ToList();
             }
             return all;
         }
@@ -146,6 +174,7 @@ namespace MergTestUebungen
                                  city = ku.city,
                                  currid = w.currid
                              }).ToList();
+               
             }
             return innerJoin;
         }
@@ -179,5 +208,11 @@ namespace MergTestUebungen
         public string city { get; set; }
         public string country { get; set; }
         public string currid { get; set; }
+    }
+
+    class Name
+    {
+        public int ID { get; set; }
+        public string  Countryname { get; set; }
     }
 }
