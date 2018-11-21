@@ -84,11 +84,49 @@ namespace MergTestUebungen
             Console.WriteLine(i);
             Console.WriteLine();
 
-            string a = "eins", b = "20", f = "30", d = "80c1";
+            string a = "eins", b = "20", f = "30", d = "1.080,10", m= "80,3";
             Console.WriteLine(a.TryToIntager());
             Console.WriteLine(b.TryToIntager());
             Console.WriteLine(f.TryToIntager());
             Console.WriteLine(d.TryToIntager());
+            Console.WriteLine();
+            Console.WriteLine(b.TryToDouble());
+            Console.WriteLine(a.TryToDouble());
+            Console.WriteLine(m.TryToDouble());
+            Console.WriteLine(d.TryToDouble());
+
+            double w = 2.4;
+            Console.WriteLine(w);
+
+            string[] values = { "1,643.57", "$1,643.57", "-1.643e6",
+                          "-168934617882109132", "123AE6",
+                          null, String.Empty, "ABCDEF" };
+            double number;
+
+            foreach (var value in values)
+            {
+                if (Double.TryParse(value, out number))
+                    Console.WriteLine("'{0}' --> {1}", value, number);
+                else
+                    Console.WriteLine("Unable to parse '{0}'.", value);
+            }
+
+            string h = "344372505920619";
+
+            if (h.IsACreditcard())
+            {
+                Console.WriteLine("Es ist eine Kreditkarte");
+            }
+            string x = "34437250592061";
+
+            if (x.IsACreditcard())
+            {
+                Console.WriteLine("Es ist eine Kreditkarte");
+            }
+            else
+            {
+                Console.WriteLine("Es ist keine Kreditkarte");
+            }
 
             Console.ReadKey();
 
