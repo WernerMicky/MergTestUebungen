@@ -9,26 +9,26 @@ namespace MergTestUebungen
 
         public static string UppercaseFirstLetter(this string value)
         {
-            if (value.Length>0)
+            if (value.Length > 0)
             {
                 char[] array = value.ToCharArray();
                 array[0] = char.ToUpper(array[0]);
                 return new string(array);
             }
             return value;
-        } 
+        }
 
         public static int WordCount(this string value)
         {
             //return str.Split(new char[] { ' ', '.', '?' }, StringSplitOptions.RemoveEmptyEntries).Length;
-           return value.Split(new char[]{ ',', '.', '?', '!','#',' ', }, StringSplitOptions.RemoveEmptyEntries).Length;
+            return value.Split(new char[] { ',', '.', '?', '!', '#', ' ', }, StringSplitOptions.RemoveEmptyEntries).Length;
 
         }
 
         public static int TryToIntager(this string value)
         {
-            int i = 0;            
-            bool x = Int32.TryParse(value,out i);
+            int i = 0;
+            bool x = Int32.TryParse(value, out i);
             return i;
         }
 
@@ -38,7 +38,7 @@ namespace MergTestUebungen
             //http://www.csharp-examples.net/culture-names/
             //https://stackoverflow.com/questions/23131414/culture-invariant-decimal-tryparse
             double i = 0.0;
-            bool x = Double.TryParse(value,NumberStyles.Any,new CultureInfo("de-AT"), out i);
+            bool x = Double.TryParse(value, NumberStyles.Any, new CultureInfo("de-AT"), out i);
             return i;
         }
 
@@ -53,8 +53,8 @@ namespace MergTestUebungen
                 add -= add > 9 ? 9 : 0;
                 sum += add;
             }
-            return sum % 10 == 0;       
-    }
+            return sum % 10 == 0;
+        }
 
 
     }
