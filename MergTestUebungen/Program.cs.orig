@@ -82,6 +82,15 @@ namespace MergTestUebungen
             Console.WriteLine(z);
             Console.WriteLine();
             Console.WriteLine(i);
+<<<<<<< HEAD
+            Console.WriteLine();
+
+            string a = "eins", b = "20", f = "30", d = "80c1";
+            Console.WriteLine(a.TryToIntager());
+            Console.WriteLine(b.TryToIntager());
+            Console.WriteLine(f.TryToIntager());
+            Console.WriteLine(d.TryToIntager());
+=======
             Console.WriteLine();
 
             string a = "eins", b = "20", f = "30", d = "1.080,10", m= "80,3";
@@ -114,6 +123,7 @@ namespace MergTestUebungen
             {
                 Console.WriteLine("Es ist keine Kreditkarte");
             }
+>>>>>>> DEV
 
             Console.ReadKey();
 
